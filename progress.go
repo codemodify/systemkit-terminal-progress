@@ -2,5 +2,7 @@ package progress
 
 // Renderer -
 type Renderer interface {
-	Render()
+	Run()
+	Success()
+	Fail()
 }
