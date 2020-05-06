@@ -1,8 +1,6 @@
 package progress
 
-import (
-	"io"
-)
+import "os"
 
 // Config -
 type Config struct {
@@ -17,6 +15,6 @@ type Config struct {
 	FailGlyph   string //
 	FailMessage string // message to display on failure
 
-	Writer     io.Writer //
-	HideCursor bool      //
+	Writer     *os.File //
+	HideCursor bool     //
 }
