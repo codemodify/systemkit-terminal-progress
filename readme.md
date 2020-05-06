@@ -17,3 +17,5 @@
 ![](https://img.shields.io/github/watchers/codemodify/systemkit-terminal-progress?style=flat-square)
 ![](https://img.shields.io/github/forks/codemodify/systemkit-terminal-progress?style=flat-square)
 
+### Samples
+- `github.com/codemodify/systemkit-terminal-progress-samples`
