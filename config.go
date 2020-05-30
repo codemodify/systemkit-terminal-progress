@@ -4,9 +4,13 @@ import "os"
 
 // Config -
 type Config struct {
-	Prefix          string   // prefix before the animated characters
+	Prefix string // prefix before the glyphs
+	Suffix string // suffix after the glyphs
+
+	QueuedGlyph   string //
+	QueuedMessage string // message to display while waiting to start
+
 	ProgressGlyphs  []string // characters to animate
-	Suffix          string   // suffix after the animated characters
 	ProgressMessage string   // message to display while the operation is going
 
 	SuccessGlyph   string //
@@ -21,36 +25,52 @@ type Config struct {
 
 // NewDefaultConfig -
 func NewDefaultConfig(args ...string) *Config {
+	queuedMessage := ""
 	progressMessage := ""
 	successMessage := ""
 	failMessage := ""
 
 	if len(args) > 0 {
-		progressMessage = args[0]
+		queuedMessage = args[0]
 	}
 
 	if len(args) > 1 {
-		successMessage = args[1]
+		progressMessage = args[1]
 	} else {
-		successMessage = progressMessage
+		progressMessage = queuedMessage
 	}
 
 	if len(args) > 2 {
-		failMessage = args[2]
+		successMessage = args[2]
 	} else {
-		failMessage = progressMessage
+		successMessage = queuedMessage
 	}
 
+	if len(args) > 3 {
+		failMessage = args[3]
+	} else {
+		failMessage = queuedMessage
+	}
+
+	// https://en.wikipedia.org/wiki/List_of_Unicode_characters
+
 	return &Config{
-		Prefix:          " ",
-		ProgressGlyphs:  []string{string('\u25B6')}, // u00BB - double arrow, u25B6 - play
-		Suffix:          " ",
+		Prefix: " ",
+		Suffix: " ",
+
+		QueuedGlyph:   string('\u2218'), // void bullet
+		QueuedMessage: queuedMessage,
+
+		ProgressGlyphs:  []string{string('\u25B6')}, // u25B6 - play
 		ProgressMessage: progressMessage,
-		SuccessGlyph:    string('\u2713'), // check mark
-		SuccessMessage:  successMessage,
-		FailGlyph:       string('\u00D7'), // middle cross
-		FailMessage:     failMessage,
-		Writer:          os.Stdout,
-		HideCursor:      true,
+
+		SuccessGlyph:   string('\u2713'), // check mark
+		SuccessMessage: successMessage,
+
+		FailGlyph:   string('\u00D7'), // middle cross
+		FailMessage: failMessage,
+
+		Writer:     os.Stdout,
+		HideCursor: true,
 	}
 }
